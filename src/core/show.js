@@ -24,7 +24,7 @@ export default ($element, store) => {
 
     if (!mainSlider) {
         mainSlider = new smSlider($group, options.mainSlider);
-        //mainSlider.toSlide(index);
+        mainSlider.toSlide(index);
 
         if (options.showThumbSlider) {
             thumbSlider = new smSlider($thumbGroup, options.thumbSlider);

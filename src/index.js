@@ -4,15 +4,10 @@ import './styles/main.less';
 if (process.env.NODE_ENV === 'development') {
     const lightboxOptions = {
         group1: {
-            showThumbSlider: true,
+            showThumbSlider: false,
             darkBackground: 'red',
             mainSlider: {
                 visibleSlides: 1,
-                step: 1,
-                infinite: true
-            },
-            thumbSlider: {
-                visibleSlides: 4,
                 step: 1,
                 infinite: true
             }

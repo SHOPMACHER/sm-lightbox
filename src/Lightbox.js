@@ -65,6 +65,8 @@ export default class Lightbox {
         $wrapper.appendChild($group);
         if ($thumbGroup) {
             $wrapper.appendChild($thumbGroup);
+        } else {
+            $group.classList.add('lightbox-slider--no-thumb');
         }
 
         document.body.appendChild($wrapper);
