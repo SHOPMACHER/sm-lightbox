@@ -6,7 +6,7 @@ import once from '../utils/event-listener-once';
 export default ($element, store) => {
     let { mainSlider, thumbSlider } = store.getState();
     const { $shadow, $closer, $wrapper, $group, $thumbGroup, options } = store.getState();
-    const index = $element.getAttribute('data-lightbox-index');
+    const index = parseInt($element.getAttribute('data-lightbox-index'), 10);
 
     $shadow.style.display = 'inherit';
     $wrapper.classList.remove('hidden');
