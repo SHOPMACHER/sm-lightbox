@@ -1,0 +1,20 @@
+.hidden {
+  display: none;
+}
+.lightbox-shadow {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1001;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+.lightbox-shadow--hidden {
+  opacity: 0;
+}
+
+/*# sourceMappingURL=lightbox.css.map*/
