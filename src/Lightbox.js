@@ -31,6 +31,7 @@ export default class Lightbox {
             $refs,
             $shadow,
             $closer,
+            group,
             options: {
                 ..._defaultOptions,
                 ...groupOptions
@@ -49,13 +50,23 @@ export default class Lightbox {
         }
 
         Array.prototype.forEach.call($refs, ($ref, index) => {
-            const $slide = htmlToElement(`<div class="slide"></div>`);
+            const $slide = htmlToElement('<div class="slide"></div>');
 
             $slide.appendChild($ref.cloneNode(false));
             $group.querySelector('.slides').appendChild($slide);
 
             if ($thumbGroup) {
-                $thumbGroup.querySelector('.slides').appendChild($slide.cloneNode(true));
+                const thumbnail = $ref.getAttribute('data-lightbox-thumbnail');
+
+                if (thumbnail) {
+                    const $thumbnail = htmlToElement(`<img src="${thumbnail}">`);
+                    const $slideContainer = htmlToElement('<div class="slide"></div>');
+
+                    $slideContainer.appendChild($thumbnail);
+                    $thumbGroup.querySelector('.slides').appendChild($slideContainer);
+                } else {
+                    $thumbGroup.querySelector('.slides').appendChild($slide.cloneNode(true));
+                }
             }
 
             $ref.addEventListener('click', show.bind(this, $ref, this.store));
