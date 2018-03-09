@@ -1,6 +1,6 @@
 {
   "name": "@shopmacher/lightbox",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A lightweight lightbox library",
   "main": "lib/lightbox.js",
   "jsnext:main": "lib/lightbox.js",

@@ -65,8 +65,12 @@ export default class Lightbox {
 
         Array.prototype.forEach.call($refs, ($ref, index) => {
             const $slide = htmlToElement('<div class="slide"></div>');
+            const zoom = $ref.getAttribute('data-lightbox-zoom');
+            const src = zoom ? zoom : $ref.getAttribute('src');
+            const $mainImage = htmlToElement(`<img src="${src}" />`);
 
-            $slide.appendChild($ref.cloneNode(false));
+            $mainImage.setAttribute('data-lightbox-index', index);
+            $slide.appendChild($mainImage);
             $mainGroup.querySelector('.slides').appendChild($slide);
 
             if ($thumbGroup) {
