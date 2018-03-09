@@ -13,12 +13,26 @@ const _defaultOptions = {
     thumbSlider: {}
 };
 
+/**
+ * This is the main class that is used to instantiate a new lightbox.
+ * To create a new lightbox, use the constructor function like
+ * `new Lightbox($ref: HTMLElement, group: String, options: options)`.
+ */
 export default class Lightbox {
 
+    /**
+     * Constructor
+     *
+     * Creates a new instance of the lightbox class
+     *
+     * @param $refs {HTMLElement} Elements for the lightbox
+     * @param group Groupname for the lightbox group
+     * @param options {options} Optional configuration
+     */
     constructor($refs, group, options = {}) {
         const groupOptions = options[group];
 
-        const $group = this.getSliderDom(group);
+        const $mainGroup = this.getSliderDom(group);
         const $thumbGroup = groupOptions.showThumbSlider ? this.getSliderDom(group, 'thumb') : null;
         const $shadow = htmlToElement(`<div id="lightbox-shadow--${group}" class="lightbox-shadow lightbox-shadow--hidden"></div>`);
         const $closer = htmlToElement(`<div id="lightbox-shadow--${group}-closer" class="lightbox-shadow--closer lightbox-shadow--closer-hidden"></div>`);
@@ -26,7 +40,7 @@ export default class Lightbox {
 
         const initialState = {
             $wrapper,
-            $group,
+            $mainGroup,
             $thumbGroup,
             $refs,
             $shadow,
@@ -40,7 +54,7 @@ export default class Lightbox {
             thumbSlider: null
         };
 
-        this.store = new Store(initialState, this.handleChange);
+        this.store = new Store(initialState, () => {});
 
         document.body.appendChild($shadow);
         $shadow.style.background = initialState.options.darkBackground;
@@ -53,7 +67,7 @@ export default class Lightbox {
             const $slide = htmlToElement('<div class="slide"></div>');
 
             $slide.appendChild($ref.cloneNode(false));
-            $group.querySelector('.slides').appendChild($slide);
+            $mainGroup.querySelector('.slides').appendChild($slide);
 
             if ($thumbGroup) {
                 const thumbnail = $ref.getAttribute('data-lightbox-thumbnail');
@@ -73,16 +87,23 @@ export default class Lightbox {
             $ref.setAttribute('data-lightbox-index', index);
         });
 
-        $wrapper.appendChild($group);
+        $wrapper.appendChild($mainGroup);
         if ($thumbGroup) {
             $wrapper.appendChild($thumbGroup);
         } else {
-            $group.classList.add('lightbox-slider--no-thumb');
+            $mainGroup.classList.add('lightbox-slider--no-thumb');
         }
 
         document.body.appendChild($wrapper);
     }
 
+    /**
+     * Returns the slider dom structure
+     *
+     * @param group Groupname of the lightbox group
+     * @param type The type of the slider main|thumb
+     * @returns {Object|Object[]} HTMLElement
+     */
     getSliderDom(group, type = 'main') {
         return htmlToElement(`<div id="lightbox-slider--${group}-${type}" class="lightbox-slider lightbox-slider--${type} sm-slider cloaked">
                                         <div class="arrow-left hidden-mobile"></div>
@@ -93,10 +114,11 @@ export default class Lightbox {
                                     </div>`);
     }
 
-    handleChange() {
-        console.log('update state');
-    }
-
+    /**
+     * Static function to initilize the class
+     *
+     * @param options {options} Optional configuration
+     */
     static init(options) {
         const $images = document.querySelectorAll('[data-lightbox]');
 

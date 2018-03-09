@@ -1,12 +1,17 @@
-import once from '../utils/event-listener-once';
+import { addListenerOnce } from '../utils/event-listener';
 
+/**
+ * Hides the overlay
+ *
+ * @param store
+ */
 export default (store) => {
-    const { $shadow, $closer, $wrapper, $group, options} = store.getState();
+    const { $shadow, $closer, $wrapper, $mainGroup, options} = store.getState();
 
-    once($shadow, 'transitionend', () => $shadow.style.display = 'none');
+    addListenerOnce($shadow, 'transitionend', () => $shadow.style.display = 'none');
 
     $wrapper.classList.add('hidden');
-    $group.classList.add('hidden');
+    $mainGroup.classList.add('hidden');
     $shadow.classList.add('lightbox-shadow--hidden');
 
     if (options.showCloseButton) {

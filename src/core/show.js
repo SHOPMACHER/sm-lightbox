@@ -1,33 +1,44 @@
 import smSlider from 'sm-slider';
-import { ESC_KEY } from './constants';
-import hide from './hide';
-import once from '../utils/event-listener-once';
 
+import { ESC_KEY } from './constants';
+
+import hide from './hide';
+import { addListenerOnce } from '../utils/event-listener';
+import sync from './sync';
+
+/**
+ * Shows the slider in an overlay
+ *
+ * @param $element
+ * @param store
+ */
 export default ($element, store) => {
     let { mainSlider, thumbSlider } = store.getState();
-    const { $shadow, $closer, $wrapper, $group, $thumbGroup, options } = store.getState();
+    const { $shadow, $closer, $wrapper, $mainGroup, $thumbGroup, options } = store.getState();
     const index = parseInt($element.getAttribute('data-lightbox-index'), 10);
 
     $shadow.style.display = 'inherit';
     $wrapper.classList.remove('hidden');
 
-    once($shadow, 'transitionend', () => $group.classList.remove('hidden'));
-    once($shadow, 'click', hide.bind(undefined, store));
-    once(document, 'keydown', event => event.keyCode === ESC_KEY && hide(store));
+    addListenerOnce($shadow, 'transitionend', () => $mainGroup.classList.remove('hidden'));
+    addListenerOnce($shadow, 'click', hide.bind(undefined, store));
+    addListenerOnce(document, 'keydown', event => event.keyCode === ESC_KEY && hide(store));
 
     window.requestAnimationFrame(() => $shadow.classList.remove('lightbox-shadow--hidden'));
 
     if (options.showCloseButton) {
-        once($closer, 'click', hide.bind(undefined, store));
+        addListenerOnce($closer, 'click', hide.bind(undefined, store));
         window.requestAnimationFrame(() => $closer.classList.remove('lightbox-shadow--closer-hidden'));
     }
 
     if (!mainSlider) {
-        mainSlider = new smSlider($group, options.mainSlider);
+        mainSlider = new smSlider($mainGroup, options.mainSlider);
         mainSlider.toSlide(index);
 
         if (options.showThumbSlider) {
             thumbSlider = new smSlider($thumbGroup, options.thumbSlider);
+
+            sync(store);
         }
 
         store.setState({
