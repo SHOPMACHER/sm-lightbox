@@ -197,6 +197,9 @@
   left: 0;
   max-height: 100%;
 }
+.lightbox-wrapper .sm-slider {
+  z-index: 1003;
+}
 .lightbox-wrapper .lightbox-shadow--closer {
   position: fixed;
   z-index: 1004;
@@ -237,9 +240,6 @@
 }
 .lightbox-wrapper .lightbox-slider--no-thumb {
   height: 100%;
-}
-.sm-slider {
-  z-index: 1003;
 }
 
 /*# sourceMappingURL=lightbox.css.map*/
