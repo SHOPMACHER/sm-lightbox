@@ -29,8 +29,8 @@ export default class Lightbox {
      * @param group Groupname for the lightbox group
      * @param options {options} Optional configuration
      */
-    constructor($refs, group, options = {}) {
-        const groupOptions = options[group];
+    constructor($refs, group, options) {
+        const groupOptions = options[group] || {};
 
         const $mainGroup = this.getSliderDom(group);
         const $thumbGroup = groupOptions.showThumbSlider ? this.getSliderDom(group, 'thumb') : null;
