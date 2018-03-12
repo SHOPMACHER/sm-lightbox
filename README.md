@@ -31,7 +31,7 @@ Adjust your `require.config.js` to include the following code:
 packages: [{
     name: '@shopmacher/lightbox',
     location: 'node_modules/@shopmacher/lightbox/lib',
-    main: 'slightbox'
+    main: 'lightbox'
 }]
 ```
 
