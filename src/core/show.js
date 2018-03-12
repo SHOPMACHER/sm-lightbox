@@ -3,8 +3,9 @@ import smSlider from 'sm-slider';
 import { ESC_KEY } from './constants';
 
 import hide from './hide';
-import { addListenerOnce } from '../utils/event-listener';
 import sync from './sync';
+import resize from './resize';
+import { addListenerOnce } from '../utils/event-listener';
 
 /**
  * Shows the slider in an overlay
@@ -14,7 +15,7 @@ import sync from './sync';
  */
 export default ($element, store) => {
     let { mainSlider, thumbSlider } = store.getState();
-    const { $shadow, $closer, $wrapper, $mainGroup, $thumbGroup, options } = store.getState();
+    const { $shadow, $closer, $wrapper, $mainGroup, $thumbGroup, options, group } = store.getState();
     const index = parseInt($element.getAttribute('data-lightbox-index'), 10);
 
     $shadow.style.display = 'inherit';
@@ -25,6 +26,8 @@ export default ($element, store) => {
     addListenerOnce(document, 'keydown', event => event.keyCode === ESC_KEY && hide(store));
 
     window.requestAnimationFrame(() => $shadow.classList.remove('lightbox-shadow--hidden'));
+
+    const $lightboxImages = document.querySelectorAll(`#lightbox-wrapper--${group} .slides-wrapper`);
 
     if (options.showCloseButton) {
         addListenerOnce($closer, 'click', hide.bind(undefined, store));
@@ -45,6 +48,9 @@ export default ($element, store) => {
             mainSlider,
             thumbSlider
         });
+
+        window.addEventListener('resize', () => resize($lightboxImages, store));
+        resize($lightboxImages, store);
     } else {
         mainSlider.toSlide(index);
     }
