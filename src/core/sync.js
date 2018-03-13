@@ -35,7 +35,10 @@ const syncThumbslider = ($thumbnails, $thumbnailContainers, activeIndex) => {
         const index = parseInt($thumbnail.getAttribute('data-sm-slider-index'), 10);
 
         if (activeIndex === index) {
+            $thumbnail.classList.add('is-active');
             dispatch($thumbnails, 'slide', activeIndex);
+        } else {
+            $thumbnail.classList.remove('is-active');
         }
     });
 };

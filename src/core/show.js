@@ -41,6 +41,11 @@ export default ($element, store) => {
         if (options.showThumbSlider) {
             thumbSlider = new smSlider($thumbGroup, options.thumbSlider);
 
+            const $activeThumbnail = $thumbGroup.querySelector(`[data-sm-slider-index="${index}"]`);
+            if ($activeThumbnail) {
+                $activeThumbnail.classList.add('is-active');
+            }
+
             sync(store);
         }
 
