@@ -13,6 +13,7 @@ export default (store) => {
     $wrapper.classList.add('hidden');
     $mainGroup.classList.add('hidden');
     $shadow.classList.add('lightbox-shadow--hidden');
+    document.documentElement.classList.remove('sm-lightbox--active');
 
     if (options.showCloseButton) {
         $closer.classList.add('lightbox-shadow--closer-hidden');

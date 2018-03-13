@@ -25,7 +25,10 @@ export default ($element, store) => {
     addListenerOnce($shadow, 'click', hide.bind(undefined, store));
     addListenerOnce(document, 'keydown', event => event.keyCode === ESC_KEY && hide(store));
 
-    window.requestAnimationFrame(() => $shadow.classList.remove('lightbox-shadow--hidden'));
+    window.requestAnimationFrame(() => {
+        document.documentElement.classList.add('sm-lightbox--active');
+        $shadow.classList.remove('lightbox-shadow--hidden');
+    });
 
     const $lightboxImages = document.querySelectorAll(`#lightbox-wrapper--${group} .slides-wrapper`);
 
